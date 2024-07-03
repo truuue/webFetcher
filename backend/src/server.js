@@ -40,14 +40,13 @@ app.get("/fetch", async (req, res) => {
     $("img").each((index, img) => {
       let src = $(img).attr("src");
       if (src) {
-        try {
-          // Check if URL is relative by attempting to create a new URL object
-          new URL(src);
-        } catch (e) {
-          // If error, it's a relative URL; resolve it to an absolute URL
+        // Check if the URL is relative
+        if (!src.startsWith("http") && !src.startsWith("//")) {
+          // Resolve the relative URL to an absolute URL
           src = urlModule.resolve(url, src);
         }
-        if (src.endsWith(fileType)) {
+        // Check if the URL ends with the specified file type
+        if (new RegExp(`\\.${fileType}$`, "i").test(src)) {
           imgUrls.push(src);
         }
       }
