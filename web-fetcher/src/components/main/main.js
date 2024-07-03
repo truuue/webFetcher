@@ -1,6 +1,16 @@
 import React from "react";
+import CardResponse from "../responseCard/responseCard";
+import CardRequest from "../../requestCard/requestCard";
 
 class Main extends React.Component {
+  state = {
+    data: null,
+  };
+
+  handleDataChange = (data) => {
+    this.setState({ data });
+  };
+
   render() {
     return (
       <div className="w-screen h-screen flex flex-col justify-evenly items-center max-[430px]:justify-self-auto">
@@ -16,11 +26,10 @@ class Main extends React.Component {
           </p>
         </div>
         <div className="w-full h-auto flex flex-row justify-center gap-60 max-[430px]:flex-wrap">
-          <div className="bg-white w-60 h-80 rounded-xl shadow-md flex justify-center items-evenly max-[430px]:-mb-48">
-            <p>Your url input.</p>
-          </div>
-          <div className="bg-white w-60 h-80 rounded-xl shadow-md flex justify-center items-evenly">
+          <CardRequest onDataChange={this.handleDataChange} />
+          <div className="bg-white w-72 h-80 rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232] font-semibold flex flex-col justify-evenly items-center">
             <p>Your result.</p>
+            <CardResponse data={this.state.data} />
           </div>
         </div>
       </div>
