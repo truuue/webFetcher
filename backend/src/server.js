@@ -1,8 +1,8 @@
-// backend/src/server.js
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const cheerio = require("cheerio");
+const urlModule = require("url");
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -29,8 +29,8 @@ app.post("/api/data", (req, res) => {
 
 // Route pour /fetch
 app.get("/fetch", async (req, res) => {
-  const { url } = req.query;
-  console.log(url);
+  const { url, fileType } = req.query;
+  console.log(`Fetching from URL: ${url} with file type: ${fileType}`);
 
   try {
     const response = await axios.get(url);
@@ -38,7 +38,19 @@ app.get("/fetch", async (req, res) => {
     const $ = cheerio.load(html);
     const imgUrls = [];
     $("img").each((index, img) => {
-      imgUrls.push($(img).attr("src"));
+      let src = $(img).attr("src");
+      if (src) {
+        try {
+          // Check if URL is relative by attempting to create a new URL object
+          new URL(src);
+        } catch (e) {
+          // If error, it's a relative URL; resolve it to an absolute URL
+          src = urlModule.resolve(url, src);
+        }
+        if (src.endsWith(fileType)) {
+          imgUrls.push(src);
+        }
+      }
     });
 
     res.send({
