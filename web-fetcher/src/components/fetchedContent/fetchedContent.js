@@ -10,15 +10,18 @@ class FetchedContent extends React.Component {
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-        <div className="bg-white w-96 p-5 rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232]">
+        <div className="bg-white w-[30rem] p-5 rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232]">
           <h2 className="text-center mb-4 font-semibold">Fetched Content</h2>
-          <div className="overflow-auto max-h-64">
+          <div className="overflow-auto max-h-96">
             {content ? (
               <pre className="whitespace-pre-wrap">
                 {JSON.stringify(content, null, 2)}
               </pre>
             ) : (
-              <p className=" text-center text-balance">No data available. Please enter a URL to fetch data.</p>
+              <div className="text-center text-balance">
+                <p>No data available.</p>
+                <p>Please enter a URL to fetch data.</p>
+              </div>
             )}
           </div>
           <button
