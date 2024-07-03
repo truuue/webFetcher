@@ -41,7 +41,10 @@ app.get("/fetch", async (req, res) => {
       imgUrls.push($(img).attr("src"));
     });
 
-    res.send({ message: "Success!", imgUrls });
+    res.send({
+      message: `Success! Number of items: ${imgUrls.length}`,
+      imgUrls,
+    });
   } catch (error) {
     res.status(500).send({ message: "Error while fetching the url.", error });
     console.error("Error!", error);

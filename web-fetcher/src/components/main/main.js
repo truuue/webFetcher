@@ -27,10 +27,7 @@ class Main extends React.Component {
         </div>
         <div className="w-full h-auto flex flex-row justify-center gap-60 max-[430px]:flex-wrap">
           <CardRequest onDataChange={this.handleDataChange} />
-          <div className="bg-white w-72 h-80 rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232] font-semibold flex flex-col justify-evenly items-center">
-            <p>Your result.</p>
-            <CardResponse data={this.state.data} />
-          </div>
+          <CardResponse data={this.state.data} />
         </div>
       </div>
     );
