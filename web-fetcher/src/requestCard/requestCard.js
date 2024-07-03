@@ -43,7 +43,7 @@ class CardRequest extends React.Component {
         />
         <button
           type="submit"
-          className=" p-2.5 bg-black text-white shadow-[1.5px_1.5px_#5C5C5C]"
+          className="p-2.5 bg-black text-white shadow-[1.5px_1.5px_#5C5C5C]"
         >
           Submit
         </button>

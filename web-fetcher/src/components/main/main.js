@@ -1,14 +1,24 @@
 import React from "react";
 import CardResponse from "../responseCard/responseCard";
 import CardRequest from "../../requestCard/requestCard";
+import FetchedContent from "../fetchedContent/fetchedContent";
 
 class Main extends React.Component {
   state = {
     data: null,
+    isPopupVisible: false,
   };
 
   handleDataChange = (data) => {
     this.setState({ data });
+  };
+
+  openPopup = () => {
+    this.setState({ isPopupVisible: true });
+  };
+
+  closePopup = () => {
+    this.setState({ isPopupVisible: false });
   };
 
   render() {
@@ -27,8 +37,13 @@ class Main extends React.Component {
         </div>
         <div className="w-full h-auto flex flex-row justify-center gap-60 max-[430px]:flex-wrap">
           <CardRequest onDataChange={this.handleDataChange} />
-          <CardResponse data={this.state.data} />
+          <CardResponse data={this.state.data} openPopup={this.openPopup} />
         </div>
+        <FetchedContent
+          isVisible={this.state.isPopupVisible}
+          content={this.state.data}
+          onClose={this.closePopup}
+        />
       </div>
     );
   }
