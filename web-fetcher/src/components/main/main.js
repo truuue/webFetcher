@@ -1,6 +1,6 @@
 import React from "react";
 import CardResponse from "../responseCard/responseCard";
-import CardRequest from "../../requestCard/requestCard";
+import CardRequest from "../requestCard/requestCard";
 import FetchedContent from "../fetchedContent/fetchedContent";
 
 class Main extends React.Component {
