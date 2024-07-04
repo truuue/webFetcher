@@ -73,7 +73,7 @@ class FetchedContent extends React.Component {
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
         <div className="bg-white w-[30rem] p-5 rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232]">
           <h2 className="text-center mb-4 font-semibold">Fetched Content</h2>
-          <div className="overflow-auto max-h-96 border-1 border-black scrollbar-thin scrollbar-thumb-black scrollbar-track-black">
+          <div className="overflow-auto max-h-96 border-1 border-black scrollbar-thin scrollbar-thumb-black scrollbar-track-transparent">
             {imageUrls.length > 0 ? (
               imageUrls.map((url, index) => (
                 <div key={index} className="mb-2">
@@ -84,7 +84,7 @@ class FetchedContent extends React.Component {
                   />
                   <button
                     onClick={() => this.downloadImage(url, index)}
-                    className="p-2.5 bg-gray-600 text-white font-semibold shadow-[1.5px_1.5px_#5C5C5C] mb-2 "
+                    className="p-2.5 bg-gray-600 text-white font-semibold shadow-[1.5px_1.5px_#5C5C5C] mb-2 mx-auto block"
                   >
                     Download
                   </button>
