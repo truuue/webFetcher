@@ -1,9 +1,9 @@
 import React from "react";
 import { saveAs } from "file-saver";
+import JSZip from "jszip";
 
 class FetchedContent extends React.Component {
   downloadImage = (url, index) => {
-    // Fetch the image and then use file-saver to save it
     fetch(url)
       .then((response) => response.blob())
       .then((blob) => {
@@ -17,9 +17,31 @@ class FetchedContent extends React.Component {
     const { content } = this.props;
     const imageUrls = this.getImageUrls(content);
 
-    imageUrls.forEach((url, index) => {
-      this.downloadImage(url, index);
-    });
+    if (imageUrls.length === 0) {
+      return;
+    }
+
+    const zip = new JSZip();
+
+    const promises = imageUrls.map((url, index) =>
+      fetch(url)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const filename = `fetched_image_${index}${this.getFileExtension(
+            url
+          )}`;
+          zip.file(filename, blob);
+        })
+        .catch((err) => console.error("Error fetching image:", err))
+    );
+
+    Promise.all(promises)
+      .then(() => {
+        zip.generateAsync({ type: "blob" }).then((content) => {
+          saveAs(content, "images.zip");
+        });
+      })
+      .catch((err) => console.error("Error creating ZIP file:", err));
   };
 
   getImageUrls = (data) => {
