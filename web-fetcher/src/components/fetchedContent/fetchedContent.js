@@ -9,7 +9,7 @@ class FetchedContent extends React.Component {
     }
 
     const isImageUrl = (url) => {
-      return /\.(jpg|jpeg|png|gif)$/.test(url);
+      return /\.(jpg|jpeg|png|gif|svg)$/.test(url);
     };
 
     const getImageUrls = (data) => {
