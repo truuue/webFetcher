@@ -7,10 +7,20 @@ class Main extends React.Component {
   state = {
     data: null,
     isPopupVisible: false,
+    isLoading: false,
+    error: null,
   };
 
   handleDataChange = (data) => {
-    this.setState({ data });
+    this.setState({ data, isLoading: false, error: null });
+  };
+
+  handleError = (error) => {
+    this.setState({ error, isLoading: false });
+  };
+
+  handleLoading = () => {
+    this.setState({ isLoading: true });
   };
 
   openPopup = () => {
@@ -36,8 +46,17 @@ class Main extends React.Component {
           </p>
         </div>
         <div className="w-full h-auto flex flex-row justify-center gap-60 max-[430px]:flex-wrap">
-          <CardRequest onDataChange={this.handleDataChange} />
-          <CardResponse data={this.state.data} openPopup={this.openPopup} />
+          <CardRequest
+            onDataChange={this.handleDataChange}
+            onLoading={this.handleLoading}
+            onError={this.handleError}
+          />
+          <CardResponse
+            data={this.state.data}
+            isLoading={this.state.isLoading}
+            error={this.state.error}
+            openPopup={this.openPopup}
+          />
         </div>
         <FetchedContent
           isVisible={this.state.isPopupVisible}

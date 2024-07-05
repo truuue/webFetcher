@@ -18,6 +18,7 @@ class CardRequest extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     const backendUrl = "http://localhost:5001";
+    this.props.onLoading();
     axios
       .get(`${backendUrl}/fetch`, {
         params: {
@@ -30,6 +31,7 @@ class CardRequest extends React.Component {
         console.log(response.data);
       })
       .catch((error) => {
+        this.props.onError(error.message);
         console.error("There was an error!", error);
       });
   };
