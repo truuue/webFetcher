@@ -7,7 +7,12 @@ function CardResponse(props) {
       {props.isLoading ? (
         <p>Loading...</p>
       ) : props.error ? (
-        <p className="text-red-600 text-center text-pretty">{props.error}</p>
+        <>
+          <p className="text-red-600 text-center text-pretty">{props.error}</p>
+          <p className="text-red-600 text-center text-pretty">
+            Please check your url
+          </p>
+        </>
       ) : (
         <h1 className="text-center text-pretty">
           {props.data
