@@ -5,6 +5,7 @@ class CardRequest extends React.Component {
   state = {
     url: "",
     fileType: "jpg",
+    error: null,
   };
 
   handleInputChange = (event) => {
@@ -15,8 +16,23 @@ class CardRequest extends React.Component {
     this.setState({ fileType: event.target.value });
   };
 
+  validateUrl = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
   handleSubmit = async (event) => {
     event.preventDefault();
+    const { url } = this.state;
+    if (!this.validateUrl(url)) {
+      this.setState({ error: "Invalid URL" });
+      return;
+    }
+
     const backendUrl = "http://localhost:5001";
     this.props.onLoading();
     axios
@@ -28,12 +44,19 @@ class CardRequest extends React.Component {
       })
       .then((response) => {
         this.props.onDataChange(response.data);
+        this.setState({ error: null });
         console.log(response.data);
       })
       .catch((error) => {
         this.props.onError(error.message);
         console.error("There was an error!", error);
       });
+  };
+
+  handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      this.handleSubmit(event);
+    }
   };
 
   render() {
@@ -46,6 +69,7 @@ class CardRequest extends React.Component {
         <input
           onChange={this.handleInputChange}
           value={this.state.url}
+          onKeyDown={this.handleKeyDown}
           className="w-[200px] h-[40px] rounded-md border-2 border-[#323232] bg-white shadow-[2px_2px_#323232] text-[15px] font-semibold text-[#323232] px-[10px] py-[5px] outline-none placeholder-[#666] placeholder-opacity-80 focus:border-[#2d8cf0]"
           placeholder="URL"
         />
@@ -67,6 +91,11 @@ class CardRequest extends React.Component {
         >
           Submit
         </button>
+        {this.state.error && (
+          <p className="text-red-600 text-center text-pretty">
+            {this.state.error}
+          </p>
+        )}
       </form>
     );
   }

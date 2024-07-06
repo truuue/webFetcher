@@ -32,6 +32,13 @@ app.get("/fetch", async (req, res) => {
     return res.status(400).send({ message: "URL is required" });
   }
 
+  // Validate URL format
+  try {
+    new URL(url);
+  } catch (_) {
+    return res.status(400).send({ message: "Invalid URL" });
+  }
+
   try {
     const response = await axios.get(url);
     const html = response.data;
@@ -55,9 +62,18 @@ app.get("/fetch", async (req, res) => {
       imgUrls,
     });
   } catch (error) {
-    res
-      .status(500)
-      .send({ message: "Error while fetching the URL.", error: error.message });
+    if (error.response) {
+      res
+        .status(error.response.status)
+        .send({ message: error.response.statusText });
+    } else {
+      res
+        .status(500)
+        .send({
+          message: "Error while fetching the URL.",
+          error: error.message,
+        });
+    }
     console.error("Error!", error);
   }
 });
