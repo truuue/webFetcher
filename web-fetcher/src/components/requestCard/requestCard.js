@@ -65,6 +65,11 @@ class CardRequest extends React.Component {
         onSubmit={this.handleSubmit}
         className="bg-white w-72 h-80 xl:w-[22rem] xl:h-[25rem] rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232] font-semibold flex flex-col justify-evenly items-center max-[430px]:-mb-48"
       >
+        {this.state.error && (
+          <p className="text-red-600 text-center text-pretty">
+            {this.state.error}
+          </p>
+        )}
         <p>Your URL input.</p>
         <input
           onChange={this.handleInputChange}
@@ -91,11 +96,6 @@ class CardRequest extends React.Component {
         >
           Submit
         </button>
-        {this.state.error && (
-          <p className="text-red-600 text-center text-pretty">
-            {this.state.error}
-          </p>
-        )}
       </form>
     );
   }
