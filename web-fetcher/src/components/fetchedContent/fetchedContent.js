@@ -71,9 +71,9 @@ class FetchedContent extends React.Component {
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-        <div className="bg-white w-[30rem] p-5 rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232]">
+        <div className="bg-white w-[35rem] p-5 rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232]">
           <h2 className="text-center mb-4 font-semibold">Fetched Content</h2>
-          <div className="overflow-auto max-h-96 border-1 border-black scrollbar-thin scrollbar-thumb-black scrollbar-track-transparent">
+          <div className="overflow-auto max-h-96 xl:max-h-[35rem] border-1 border-black scrollbar-thin scrollbar-thumb-black scrollbar-track-transparent">
             {imageUrls.length > 0 ? (
               imageUrls.map((url, index) => (
                 <div key={index} className="mb-2">

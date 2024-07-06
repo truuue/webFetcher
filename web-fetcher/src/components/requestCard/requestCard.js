@@ -63,21 +63,21 @@ class CardRequest extends React.Component {
     return (
       <form
         onSubmit={this.handleSubmit}
-        className="bg-white w-72 h-80 rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232] font-semibold flex flex-col justify-evenly items-center max-[430px]:-mb-48"
+        className="bg-white w-72 h-80 xl:w-[22rem] xl:h-[25rem] rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232] font-semibold flex flex-col justify-evenly items-center max-[430px]:-mb-48"
       >
         <p>Your URL input.</p>
         <input
           onChange={this.handleInputChange}
           value={this.state.url}
           onKeyDown={this.handleKeyDown}
-          className="w-[200px] h-[40px] rounded-md border-2 border-[#323232] bg-white shadow-[2px_2px_#323232] text-[15px] font-semibold text-[#323232] px-[10px] py-[5px] outline-none placeholder-[#666] placeholder-opacity-80 focus:border-[#2d8cf0]"
+          className="w-[200px] h-[40px] rounded-md border-2 border-[#323232] bg-white shadow-[2px_2px_#323232] text-[15px] font-semibold text-[#323232] px-[10px] py-[5px] outline-none placeholder-[#666] placeholder-opacity-80 focus:border-gray-400"
           placeholder="URL"
         />
         <p>Select file type:</p>
         <select
           value={this.state.fileType}
           onChange={this.handleFileTypeChange}
-          className="w-[200px] h-[40px] rounded-md border-2 border-[#323232] bg-white shadow-[2px_2px_#323232] text-[15px] font-semibold text-[#323232] px-[10px] py-[5px] outline-none focus:border-[#2d8cf0]"
+          className="w-[200px] h-[40px] rounded-md border-2 border-[#323232] bg-white shadow-[2px_2px_#323232] text-[15px] font-semibold text-[#323232] px-[10px] py-[5px] outline-none focus:border-gray-400"
         >
           <option value="jpg">JPG</option>
           <option value="jpeg">JPEG</option>
@@ -87,7 +87,7 @@ class CardRequest extends React.Component {
         </select>
         <button
           type="submit"
-          className="p-2.5 bg-black text-white shadow-[1.5px_1.5px_#5C5C5C]"
+          className="p-2.5 bg-black hover:bg-gray-700 text-white shadow-[1.5px_1.5px_#5C5C5C]"
         >
           Submit
         </button>
