@@ -6,7 +6,7 @@
         <summary style=" margin-bottom: 10px;">
 		Click Me
         </summary>
-        <ul style="list-style-type:none;">
+        <ul style="list-style-type: none;">
 	        <li>📝 <a href="#description">Description</a></li>
             <li>🔧 <a href="#tech-stack">Tech stack</a></li>
             <li>💻 <a href="#utilisation">Utilisation</a></li>
