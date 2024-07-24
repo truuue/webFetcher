@@ -6,8 +6,19 @@ const urlModule = require("url");
 
 const app = express();
 const port = process.env.PORT || 5001;
+const allowedOrigins = ["https://webfetcher.noahvernhet.com"];
 
-app.use(cors());
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -67,12 +78,10 @@ app.get("/fetch", async (req, res) => {
         .status(error.response.status)
         .send({ message: error.response.statusText });
     } else {
-      res
-        .status(500)
-        .send({
-          message: "Error while fetching the URL.",
-          error: error.message,
-        });
+      res.status(500).send({
+        message: "Error while fetching the URL.",
+        error: error.message,
+      });
     }
     console.error("Error!", error);
   }
