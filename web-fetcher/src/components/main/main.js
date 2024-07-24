@@ -33,8 +33,8 @@ class Main extends React.Component {
 
   render() {
     return (
-      <div className="w-screen h-screen flex flex-col justify-evenly items-center max-[430px]:justify-self-auto">
-        <div className="w-full h-auto flex flex-col justify-center items-center max-[430px]:p-12 ">
+      <div className="w-screen h-screen flex flex-col justify-evenly items-center">
+        <div className="w-full h-auto flex flex-col justify-center items-center max-[430px]:p-10">
           <img
             src="https://www.svgrepo.com/show/69948/rat-looking-right.svg"
             alt="ratIcon"
