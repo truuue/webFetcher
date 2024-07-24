@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# Web Fetcher Tool <img  height="50px" align="right" src="https://www.svgrepo.com/show/69948/rat-looking-right.svg" alt="Rat logo">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📋 Table of contents
 
-## Available Scripts
+<details>
+        <summary style=" margin-bottom: 10px;">
+		Click Me
+        </summary>
+        <ul style="list-style-type: none;">
+	        <li>📝 <a href="#description">Description</a></li>
+            <li>🔧 <a href="#tech-stack">Tech stack</a></li>
+            <li>💻 <a href="#utilisation">Utilisation</a></li>
+            <li>⏳ <a href="#whats-next">What's next ?</a></li>
+            <li>👷 <a href="#authors">Authors</a></li>
+        </ul>
+</details>
 
-In the project directory, you can run:
+## 📝 <span id="description">Description</span>
 
-### `npm start`
+### Project Overview:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The Web Fetcher Tool was born out of frustration with the tedious process of searching for and downloading photos from various websites. Tired of navigating multiple sites and downloading images individually, I set out to create a simple, accessible tool for everyone.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Objective and Scope:
 
-### `npm test`
+The main goal of the project is to streamline the process of fetching and downloading images from URLs entered by users. By eliminating the need to manually search and download photos from different websites, the tool aims to save time and effort for users seeking to collect images efficiently.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Non-Profit and Learning Emphasis:
 
-### `npm run build`
+The project emphasizes non-profit motives and serves as a learning experience in web development. It aims to contribute positively to the community by providing a free and useful tool while advancing my skills in programming and web technologies.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🔧 <span id="tech-stack">Tech stack</span>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<p align="center">
+    <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js badge">
+    <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" alt="Javascript badge">
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React badge">
+    <img src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge" alt="Express.js badge">
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwindcss badge">
+    <img src="https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white" alt="Visual Studio Code badge">
+    <img src="https://img.shields.io/badge/Git-f05032?logo=git&logoColor=white&style=for-the-badge" alt="Git badge">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub badge">
+    <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white" alt="Notion badge">
+    <img src="https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3Ee" alt="Prettier badge">
+</p>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 💻 <span id="utilisation">Utilisation</span>
 
-### `npm run eject`
+<img src="./README-pictures/url-exemple.png" />
+When you open the website, you can enter any URL you want and click on the "Submit" button to obtain a result in the right window called "Your result." Click on the "Show content" button to display all fetched images.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<img src="./README-pictures/result-exemple.png" />
+This is the result. you can download each picture one by one or all of them in a zip file.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## ⏳ <span id="whats-next">What's next ?</span>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- For the moment, I want to improve the number of websites I can fetch with my tool, but I encounter some issues because of the robots.txt file.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 👷 <span id="authors">Authors</span>
 
-## Learn More
+**VERNHET Noah**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Github: [@truuue](https://github.com/truuue)
+- LinkedIn: [Noah Vernhet](https://www.linkedin.com/in/noah-vernhet/)
