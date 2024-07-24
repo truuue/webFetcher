@@ -34,7 +34,7 @@ class Main extends React.Component {
   render() {
     return (
       <div className="w-screen h-screen flex flex-col justify-evenly items-center">
-        <div className="w-full h-auto flex flex-col justify-center items-center max-[430px]:p-10">
+        <div className="w-full h-auto flex flex-col justify-center items-center max-[430px]:m-10">
           <img
             src="https://www.svgrepo.com/show/69948/rat-looking-right.svg"
             alt="ratIcon"
