@@ -2,7 +2,7 @@ import React from "react";
 
 function CardResponse(props) {
   return (
-    <div className="bg-white w-72 h-80 xl:w-[22rem] xl:h-[25rem] rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232] font-semibold flex flex-col justify-evenly items-center">
+    <div className="bg-white w-72 h-80 xl:w-[22rem] xl:h-[25rem] rounded-md border-2 border-[#323232] shadow-[4px_4px_#323232] font-semibold flex flex-col justify-evenly items-center max-[430px]:mb-16">
       <p>Your result.</p>
       {props.isLoading ? (
         <p>Loading...</p>
