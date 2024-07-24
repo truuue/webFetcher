@@ -34,11 +34,11 @@ class Main extends React.Component {
   render() {
     return (
       <div className="w-screen h-screen flex flex-col justify-evenly items-center">
-        <div className="w-full h-auto flex flex-col justify-center items-center max-[430px]:m-10">
+        <div className="w-full h-full flex flex-col justify-center items-center max-[430px]:m-10">
           <img
             src="https://www.svgrepo.com/show/69948/rat-looking-right.svg"
             alt="ratIcon"
-            className="w-12 h-12 max-w-full max-h-full"
+            className="w-1/4 h-1/4 sm:w-12 sm:h-12 max-w-full max-h-full"
           />
           <h1 className="text-6xl max-[430px]:text-3xl">Web Fetcher</h1>
           <p className=" text-lg max-[430px]:text-sm">
