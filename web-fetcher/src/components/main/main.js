@@ -38,7 +38,7 @@ class Main extends React.Component {
           <img
             src="https://www.svgrepo.com/show/69948/rat-looking-right.svg"
             alt="ratIcon"
-            className="w-12 h-12"
+            className="w-12 h-12 max-w-full max-h-full"
           />
           <h1 className="text-6xl max-[430px]:text-3xl">Web Fetcher</h1>
           <p className=" text-lg max-[430px]:text-sm">
