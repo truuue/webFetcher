@@ -33,7 +33,7 @@ class CardRequest extends React.Component {
       return;
     }
 
-    const backendUrl = "http://localhost:5001";
+    const backendUrl = "https://webfetcher.onrender.com";
     this.props.onLoading();
     axios
       .get(`${backendUrl}/fetch`, {
