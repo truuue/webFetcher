@@ -15,6 +15,8 @@ class FetchedContent extends React.Component {
       })
       .then((blob) => {
         console.log(`Received blob for image ${index}:`, blob);
+        console.log(`Blob size: ${blob.size}`);
+        console.log(`Blob type: ${blob.type}`);
         const filename = `fetched_image_${index}${this.getFileExtension(url)}`;
         saveAs(blob, filename);
       })
@@ -42,6 +44,8 @@ class FetchedContent extends React.Component {
         })
         .then((blob) => {
           console.log(`Received blob for image ${index}:`, blob);
+          console.log(`Blob size: ${blob.size}`);
+          console.log(`Blob type: ${blob.type}`);
           const filename = `fetched_image_${index}${this.getFileExtension(
             url
           )}`;

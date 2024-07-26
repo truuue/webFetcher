@@ -111,9 +111,12 @@ app.get("/image-proxy", async (req, res) => {
     const response = await axios.get(url, { responseType: "arraybuffer" });
     const contentType = response.headers["content-type"];
     console.log(`Fetched image content type: ${contentType}`);
+    console.log(
+      `Fetched image response data length: ${response.data.byteLength}`
+    );
 
     res.setHeader("Content-Type", contentType);
-    res.send(Buffer.from(response.data));
+    res.send(response.data);
   } catch (error) {
     console.error(`Error fetching image: ${error.message}`);
     res.status(500).send({
