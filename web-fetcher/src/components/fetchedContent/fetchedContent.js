@@ -11,6 +11,11 @@ class FetchedContent extends React.Component {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const contentType = response.headers.get("Content-Type");
+        console.log(`Content-Type: ${contentType}`);
+        if (!contentType.startsWith("image/")) {
+          throw new Error(`Unexpected content type: ${contentType}`);
+        }
         return response.blob();
       })
       .then((blob) => {
@@ -39,6 +44,11 @@ class FetchedContent extends React.Component {
           console.log(`Received response for image ${index}:`, response);
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const contentType = response.headers.get("Content-Type");
+          console.log(`Content-Type: ${contentType}`);
+          if (!contentType.startsWith("image/")) {
+            throw new Error(`Unexpected content type: ${contentType}`);
           }
           return response.blob();
         })
