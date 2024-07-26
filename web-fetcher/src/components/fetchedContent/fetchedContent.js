@@ -14,14 +14,18 @@ class FetchedContent extends React.Component {
         const contentType = response.headers.get("Content-Type");
         console.log(`Content-Type: ${contentType}`);
         if (!contentType.startsWith("image/")) {
-          throw new Error(`Unexpected content type: ${contentType}`);
+          return response.text().then((text) => {
+            console.error(
+              `Received HTML instead of image for image ${index}:`,
+              text
+            );
+            throw new Error(`Unexpected content type: ${contentType}`);
+          });
         }
         return response.blob();
       })
       .then((blob) => {
         console.log(`Received blob for image ${index}:`, blob);
-        console.log(`Blob size: ${blob.size}`);
-        console.log(`Blob type: ${blob.type}`);
         const filename = `fetched_image_${index}${this.getFileExtension(url)}`;
         saveAs(blob, filename);
       })
@@ -48,14 +52,18 @@ class FetchedContent extends React.Component {
           const contentType = response.headers.get("Content-Type");
           console.log(`Content-Type: ${contentType}`);
           if (!contentType.startsWith("image/")) {
-            throw new Error(`Unexpected content type: ${contentType}`);
+            return response.text().then((text) => {
+              console.error(
+                `Received HTML instead of image for image ${index}:`,
+                text
+              );
+              throw new Error(`Unexpected content type: ${contentType}`);
+            });
           }
           return response.blob();
         })
         .then((blob) => {
           console.log(`Received blob for image ${index}:`, blob);
-          console.log(`Blob size: ${blob.size}`);
-          console.log(`Blob type: ${blob.type}`);
           const filename = `fetched_image_${index}${this.getFileExtension(
             url
           )}`;
