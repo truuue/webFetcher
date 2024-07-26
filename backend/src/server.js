@@ -19,7 +19,19 @@ app.use(
     },
   })
 );
+
 app.use(express.json());
+
+// Middleware CORS
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Express server!");
@@ -62,6 +74,7 @@ app.get("/fetch", async (req, res) => {
         if (!src.startsWith("http") && !src.startsWith("//")) {
           src = urlModule.resolve(url, src);
         }
+        console.log(`Resolved image URL: ${src}`); // Log resolved URLs
         if (new RegExp(`\\.${fileType}$`, "i").test(src)) {
           imgUrls.push(src);
         }
