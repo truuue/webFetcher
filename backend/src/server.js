@@ -98,7 +98,6 @@ app.get("/fetch", async (req, res) => {
   }
 });
 
-// Improved endpoint to fetch and serve images
 app.get("/image-proxy", async (req, res) => {
   const { url } = req.query;
   if (!url) {
@@ -107,18 +106,20 @@ app.get("/image-proxy", async (req, res) => {
 
   try {
     console.log(`Fetching image from URL: ${url}`);
-    const response = await axios.get(url, { responseType: "arraybuffer" });
+    const response = await axios.get(url, {
+      responseType: "arraybuffer",
+      maxRedirects: 5,
+    });
     const contentType = response.headers["content-type"];
     console.log(`Fetched image content type: ${contentType}`);
-
-    // Ensure the content type is an image
-    if (!contentType.startsWith("image/")) {
-      throw new Error(`Unexpected content type: ${contentType}`);
-    }
-
     console.log(
       `Fetched image response data length: ${response.data.byteLength}`
     );
+
+    if (!contentType.startsWith("image/")) {
+      console.log("Response data:", response.data.toString());
+      throw new Error(`Unexpected content type: ${contentType}`);
+    }
 
     res.setHeader("Content-Type", contentType);
     res.send(response.data);
