@@ -54,7 +54,6 @@ app.get("/fetch", async (req, res) => {
     return res.status(400).send({ message: "URL is required" });
   }
 
-  // Validate URL format
   try {
     new URL(url);
   } catch (_) {
@@ -99,7 +98,7 @@ app.get("/fetch", async (req, res) => {
   }
 });
 
-// New endpoint to fetch and serve images
+// Improved endpoint to fetch and serve images
 app.get("/image-proxy", async (req, res) => {
   const { url } = req.query;
   if (!url) {
@@ -111,6 +110,12 @@ app.get("/image-proxy", async (req, res) => {
     const response = await axios.get(url, { responseType: "arraybuffer" });
     const contentType = response.headers["content-type"];
     console.log(`Fetched image content type: ${contentType}`);
+
+    // Ensure the content type is an image
+    if (!contentType.startsWith("image/")) {
+      throw new Error(`Unexpected content type: ${contentType}`);
+    }
+
     console.log(
       `Fetched image response data length: ${response.data.byteLength}`
     );
