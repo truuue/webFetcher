@@ -22,7 +22,6 @@ app.use(
 
 app.use(express.json());
 
-// Middleware CORS
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
@@ -108,11 +107,15 @@ app.get("/image-proxy", async (req, res) => {
   }
 
   try {
+    console.log(`Fetching image from URL: ${url}`);
     const response = await axios.get(url, { responseType: "arraybuffer" });
     const contentType = response.headers["content-type"];
+    console.log(`Fetched image content type: ${contentType}`);
+
     res.setHeader("Content-Type", contentType);
     res.send(response.data);
   } catch (error) {
+    console.error(`Error fetching image: ${error.message}`);
     res.status(500).send({
       message: "Error while fetching the image.",
       error: error.message,
