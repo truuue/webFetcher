@@ -3,42 +3,32 @@ import { saveAs } from "file-saver";
 import JSZip from "jszip";
 
 class FetchedContent extends React.Component {
-  downloadImage = async (url, index) => {
-    try {
-      console.log(`Fetching image from URL: ${url}`);
-      const response = await fetch(
-        `/image-proxy?url=${encodeURIComponent(url)}`
-      );
-      console.log(`Received response for image ${index}:`, response);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const contentType = response.headers.get("Content-Type");
-      console.log(`Content-Type: ${contentType}`);
-
-      if (!contentType.startsWith("image/")) {
-        const text = await response.text(); // Lire la réponse en texte pour le diagnostic
-        console.error(`Unexpected content type: ${contentType}`);
-        console.error("Response body:", text);
-        throw new Error(`Unexpected content type: ${contentType}`);
-      }
-
-      const blob = await response.blob();
-      console.log(`Received blob for image ${index}:`, blob);
-      console.log(`Blob size: ${blob.size}`);
-      console.log(`Blob type: ${blob.type}`);
-
-      const filename = `fetched_image_${index}${this.getFileExtension(url)}`;
-      saveAs(blob, filename);
-    } catch (err) {
-      console.error("Error fetching image:", err);
-      alert("Error downloading image: " + err.message);
-    }
+  downloadImage = (url, index) => {
+    console.log(`Fetching image from URL: ${url}`);
+    fetch(`/image-proxy?url=${encodeURIComponent(url)}`)
+      .then((response) => {
+        console.log(`Received response for image ${index}:`, response);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const contentType = response.headers.get("Content-Type");
+        console.log(`Content-Type: ${contentType}`);
+        if (!contentType.startsWith("image/")) {
+          throw new Error(`Unexpected content type: ${contentType}`);
+        }
+        return response.blob();
+      })
+      .then((blob) => {
+        console.log(`Received blob for image ${index}:`, blob);
+        console.log(`Blob size: ${blob.size}`);
+        console.log(`Blob type: ${blob.type}`);
+        const filename = `fetched_image_${index}${this.getFileExtension(url)}`;
+        saveAs(blob, filename);
+      })
+      .catch((err) => console.error("Error fetching image:", err));
   };
 
-  downloadAllImages = async () => {
+  downloadAllImages = () => {
     const { content } = this.props;
     const imageUrls = this.getImageUrls(content);
 
@@ -48,46 +38,39 @@ class FetchedContent extends React.Component {
 
     const zip = new JSZip();
 
-    const promises = imageUrls.map(async (url, index) => {
-      try {
-        const response = await fetch(
-          `/image-proxy?url=${encodeURIComponent(url)}`
-        );
-        console.log(`Received response for image ${index}:`, response);
+    const promises = imageUrls.map((url, index) =>
+      fetch(`/image-proxy?url=${encodeURIComponent(url)}`)
+        .then((response) => {
+          console.log(`Received response for image ${index}:`, response);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const contentType = response.headers.get("Content-Type");
+          console.log(`Content-Type: ${contentType}`);
+          if (!contentType.startsWith("image/")) {
+            throw new Error(`Unexpected content type: ${contentType}`);
+          }
+          return response.blob();
+        })
+        .then((blob) => {
+          console.log(`Received blob for image ${index}:`, blob);
+          console.log(`Blob size: ${blob.size}`);
+          console.log(`Blob type: ${blob.type}`);
+          const filename = `fetched_image_${index}${this.getFileExtension(
+            url
+          )}`;
+          zip.file(filename, blob);
+        })
+        .catch((err) => console.error("Error fetching image:", err))
+    );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const contentType = response.headers.get("Content-Type");
-        console.log(`Content-Type: ${contentType}`);
-
-        if (!contentType.startsWith("image/")) {
-          const text = await response.text();
-          console.error(`Unexpected content type: ${contentType}`);
-          console.error("Response body:", text);
-          throw new Error(`Unexpected content type: ${contentType}`);
-        }
-
-        const blob = await response.blob();
-        console.log(`Received blob for image ${index}:`, blob);
-        console.log(`Blob size: ${blob.size}`);
-        console.log(`Blob type: ${blob.type}`);
-
-        const filename = `fetched_image_${index}${this.getFileExtension(url)}`;
-        zip.file(filename, blob);
-      } catch (err) {
-        console.error("Error fetching image:", err);
-      }
-    });
-
-    try {
-      await Promise.all(promises);
-      const zipContent = await zip.generateAsync({ type: "blob" });
-      saveAs(zipContent, "images.zip");
-    } catch (err) {
-      console.error("Error creating ZIP file:", err);
-    }
+    Promise.all(promises)
+      .then(() => {
+        zip.generateAsync({ type: "blob" }).then((content) => {
+          saveAs(content, "images.zip");
+        });
+      })
+      .catch((err) => console.error("Error creating ZIP file:", err));
   };
 
   getImageUrls = (data) => {
