@@ -113,7 +113,7 @@ app.get("/image-proxy", async (req, res) => {
     console.log(`Fetched image content type: ${contentType}`);
 
     res.setHeader("Content-Type", contentType);
-    res.send(Buffer.from(response.data, "binary"));
+    res.send(Buffer.from(response.data));
   } catch (error) {
     console.error(`Error fetching image: ${error.message}`);
     res.status(500).send({
