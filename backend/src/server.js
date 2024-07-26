@@ -111,7 +111,7 @@ app.get("/proxy", async (req, res) => {
     const response = await axios.get(url, { responseType: "arraybuffer" });
     const contentType = response.headers["content-type"];
     res.set("Content-Type", contentType);
-    res.send(response.data);
+    res.send(Buffer.from(response.data, "binary"));
   } catch (error) {
     res.status(500).send({
       message: "Error while fetching the URL.",
