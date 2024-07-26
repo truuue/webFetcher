@@ -115,10 +115,10 @@ app.get("/image-proxy", async (req, res) => {
     console.log(`Fetched image content type: ${contentType}`);
 
     if (!contentType.startsWith("image/")) {
-      const data = response.data.toString("utf8");
-      if (data.includes("<html>")) {
-        console.log("Response contains HTML, which might be an error page.");
-      }
+      console.log(
+        "Response contains HTML or other content:",
+        response.data.toString("utf8")
+      );
       throw new Error(`Unexpected content type: ${contentType}`);
     }
 
