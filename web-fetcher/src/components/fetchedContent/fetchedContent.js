@@ -4,14 +4,17 @@ import JSZip from "jszip";
 
 class FetchedContent extends React.Component {
   downloadImage = (url, index) => {
+    console.log(`Fetching image from URL: ${url}`);
     fetch(`/image-proxy?url=${encodeURIComponent(url)}`)
       .then((response) => {
+        console.log(`Received response for image ${index}:`, response);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.blob();
       })
       .then((blob) => {
+        console.log(`Received blob for image ${index}:`, blob);
         const filename = `fetched_image_${index}${this.getFileExtension(url)}`;
         saveAs(blob, filename);
       })
@@ -31,12 +34,14 @@ class FetchedContent extends React.Component {
     const promises = imageUrls.map((url, index) =>
       fetch(`/image-proxy?url=${encodeURIComponent(url)}`)
         .then((response) => {
+          console.log(`Received response for image ${index}:`, response);
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           return response.blob();
         })
         .then((blob) => {
+          console.log(`Received blob for image ${index}:`, blob);
           const filename = `fetched_image_${index}${this.getFileExtension(
             url
           )}`;
