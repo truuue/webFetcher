@@ -113,18 +113,15 @@ app.get("/image-proxy", async (req, res) => {
 
     const contentType = response.headers["content-type"];
     console.log(`Fetched image content type: ${contentType}`);
-    console.log(
-      `Fetched image response data length: ${response.data.byteLength}`
-    );
 
     if (!contentType.startsWith("image/")) {
       const responseData = response.data.toString("utf8");
       console.log("Response data:", responseData);
 
       if (responseData.includes("404") || responseData.includes("error")) {
-        return res.status(404).send({
-          message: "Image not found or an error occurred.",
-        });
+        return res
+          .status(404)
+          .send({ message: "Image not found or an error occurred." });
       }
 
       throw new Error(`Unexpected content type: ${contentType}`);
