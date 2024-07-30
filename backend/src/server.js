@@ -120,29 +120,11 @@ app.get("/download-image", async (req, res) => {
     console.log(`Fetched content type: ${contentType}`);
 
     if (!contentType.startsWith("image/")) {
-      console.log(`Received non-image content for URL: ${url}`);
       return res.status(400).send("Received non-image content");
     }
 
-    const fileExtension = path.extname(url);
-    const filename = `image_${Date.now()}${fileExtension}`;
-    const filePath = path.join(tempDir, filename);
-
-    fs.writeFileSync(filePath, response.data);
-
-    console.log(`Image saved at: ${filePath}`);
-    res.download(filePath, filename, (err) => {
-      if (err) {
-        console.error("Error sending file:", err.message);
-      }
-      fs.unlink(filePath, (unlinkErr) => {
-        if (unlinkErr) {
-          console.error(`Error deleting file ${filePath}:`, unlinkErr);
-        } else {
-          console.log(`Successfully deleted file ${filePath}`);
-        }
-      });
-    });
+    res.setHeader("Content-Type", contentType);
+    res.send(response.data);
   } catch (error) {
     console.error(`Error downloading image from URL ${url}:`, error.message);
     res.status(500).send("Error downloading image");
