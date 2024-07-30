@@ -101,38 +101,26 @@ app.get("/fetch", async (req, res) => {
 app.get("/image-proxy", async (req, res) => {
   const { url } = req.query;
   if (!url) {
-    return res.status(400).send({ message: "URL is required" });
+    return res.status(400).send("URL parameter is required");
   }
 
   try {
-    console.log(`Fetching image from URL: ${url}`);
-    const response = await axios.get(url, {
-      responseType: "arraybuffer",
-      maxRedirects: 5,
-    });
-
+    const response = await axios.get(url, { responseType: "arraybuffer" });
     const contentType = response.headers["content-type"];
-    console.log(`Fetched image content type: ${contentType}`);
 
     if (!contentType.startsWith("image/")) {
-      console.log(
-        "Response contains HTML or other content:",
-        response.data.toString("utf8")
-      );
-      throw new Error(`Unexpected content type: ${contentType}`);
+      console.log(`Received HTML instead of image for URL: ${url}`);
+      return res.status(400).send("Received non-image content");
     }
 
     res.setHeader("Content-Type", contentType);
     res.send(response.data);
   } catch (error) {
-    console.error(`Error fetching image: ${error.message}`);
-    res.status(500).send({
-      message: "Error while fetching the image.",
-      error: error.message,
-    });
+    console.error("Error fetching image:", error.message);
+    res.status(500).send("Error fetching image");
   }
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Proxy server running at http://localhost:${port}`);
 });
