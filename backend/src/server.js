@@ -3,10 +3,18 @@ const cors = require("cors");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const urlModule = require("url");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 const port = process.env.PORT || 5001;
 const allowedOrigins = ["https://webfetcher.noahvernhet.com"];
+const tempDir = path.join(__dirname, "temp");
+
+// Create temp directory if it doesn't exist
+if (!fs.existsSync(tempDir)) {
+  fs.mkdirSync(tempDir);
+}
 
 app.use(
   cors({
@@ -72,7 +80,7 @@ app.get("/fetch", async (req, res) => {
         if (!src.startsWith("http") && !src.startsWith("//")) {
           src = urlModule.resolve(url, src);
         }
-        console.log(`Resolved image URL: ${src}`); // Log resolved URLs
+        console.log(`Resolved image URL: ${src}`);
         if (new RegExp(`\\.${fileType}$`, "i").test(src)) {
           imgUrls.push(src);
         }
@@ -98,7 +106,7 @@ app.get("/fetch", async (req, res) => {
   }
 });
 
-app.get("/image-proxy", async (req, res) => {
+app.get("/download-image", async (req, res) => {
   const { url } = req.query;
   if (!url) {
     return res.status(400).send("URL parameter is required");
@@ -113,11 +121,23 @@ app.get("/image-proxy", async (req, res) => {
       return res.status(400).send("Received non-image content");
     }
 
-    res.setHeader("Content-Type", contentType);
-    res.send(response.data);
+    const fileExtension = path.extname(url);
+    const filename = `image_${Date.now()}${fileExtension}`;
+    const filePath = path.join(tempDir, filename);
+
+    fs.writeFileSync(filePath, response.data);
+
+    res.download(filePath, filename, (err) => {
+      if (err) {
+        console.error("Error sending file:", err.message);
+      }
+      fs.unlink(filePath, (unlinkErr) => {
+        if (unlinkErr) console.error("Error deleting file:", unlinkErr);
+      });
+    });
   } catch (error) {
-    console.error("Error fetching image:", error.message);
-    res.status(500).send("Error fetching image");
+    console.error("Error downloading image:", error.message);
+    res.status(500).send("Error downloading image");
   }
 });
 
