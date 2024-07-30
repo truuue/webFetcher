@@ -5,28 +5,7 @@ import JSZip from "jszip";
 class FetchedContent extends React.Component {
   downloadImage = (url, index) => {
     console.log(`Fetching image from URL: ${url}`);
-    fetch(`/download-image?url=${encodeURIComponent(url)}`)
-      .then((response) => {
-        console.log(`Received response for image ${index}:`, response);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.blob();
-      })
-      .then((blob) => {
-        if (!blob.type.startsWith("image/")) {
-          throw new Error(`Received blob is not an image: ${blob.type}`);
-        }
-        const filename = `fetched_image_${index}${this.getFileExtension(url)}`;
-        console.log(`Saving image as: ${filename}`);
-        saveAs(blob, filename);
-      })
-      .catch((err) => console.error("Error fetching image:", err));
-  };
-
-  downloadImage = (url, index) => {
-    console.log(`Fetching image from URL: ${url}`);
-    fetch(`/download-image?url=${encodeURIComponent(url)}`)
+    fetch(`/download-image.php?url=${encodeURIComponent(url)}`)
       .then((response) => {
         console.log(`Received response for image ${index}:`, response);
         if (!response.ok) {
@@ -49,6 +28,29 @@ class FetchedContent extends React.Component {
       .catch((err) => console.error("Error fetching image:", err));
   };
 
+  downloadAllImages = () => {
+    const { content } = this.props;
+    const imageUrls = this.getImageUrls(content);
+    const zip = new JSZip();
+
+    const imagePromises = imageUrls.map((url, index) =>
+      fetch(`/download-image.php?url=${encodeURIComponent(url)}`)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const filename = `fetched_image_${index}${this.getFileExtension(
+            url
+          )}`;
+          zip.file(filename, blob);
+        })
+    );
+
+    Promise.all(imagePromises).then(() => {
+      zip.generateAsync({ type: "blob" }).then((content) => {
+        saveAs(content, "images.zip");
+      });
+    });
+  };
+
   getImageUrls = (data) => {
     if (!data) return [];
     if (typeof data === "object" && Array.isArray(data.imgUrls)) {
@@ -62,7 +64,7 @@ class FetchedContent extends React.Component {
   };
 
   getFileExtension = (url) => {
-    return url.substring(url.lastIndexOf("."));
+    return url.substring(url.lastIndexOf(".")) || ".jpg";
   };
 
   render() {

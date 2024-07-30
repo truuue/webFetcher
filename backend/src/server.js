@@ -9,11 +9,10 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 5001;
 const allowedOrigins = ["https://webfetcher.noahvernhet.com"];
-const tempDir = path.join(__dirname, "temp");
+const tempDir = path.join(__dirname, "temp_images");
 
-// Create temp directory if it doesn't exist
 if (!fs.existsSync(tempDir)) {
-  fs.mkdirSync(tempDir);
+  fs.mkdirSync(tempDir, { recursive: true });
 }
 
 app.use(
@@ -127,8 +126,11 @@ app.get("/download-image", async (req, res) => {
       return res.status(400).send("Received non-image content");
     }
 
-    res.setHeader("Content-Type", contentType);
-    res.send(response.data);
+    const fileName = path.basename(new URL(url).pathname);
+    const filePath = path.join(tempDir, fileName);
+    fs.writeFileSync(filePath, response.data);
+
+    res.sendFile(filePath, { root: __dirname });
   } catch (error) {
     console.error("Error fetching image:", error);
     res.status(500).send("Error fetching image");
