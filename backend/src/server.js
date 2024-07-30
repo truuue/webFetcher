@@ -110,14 +110,20 @@ app.get("/download-image", async (req, res) => {
   const { url } = req.query;
 
   if (!url) {
+    console.log("No URL provided");
     return res.status(400).send("URL parameter is required");
   }
 
   try {
+    console.log(`Fetching image from URL: ${url}`);
     const response = await axios.get(url, { responseType: "arraybuffer" });
+    console.log(
+      `Received response with content-type: ${response.headers["content-type"]}`
+    );
 
     const contentType = response.headers["content-type"];
     if (!contentType.startsWith("image/")) {
+      console.log("Received non-image content");
       return res.status(400).send("Received non-image content");
     }
 
