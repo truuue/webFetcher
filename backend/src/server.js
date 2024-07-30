@@ -136,11 +136,15 @@ app.get("/download-image", async (req, res) => {
         console.error("Error sending file:", err.message);
       }
       fs.unlink(filePath, (unlinkErr) => {
-        if (unlinkErr) console.error("Error deleting file:", unlinkErr);
+        if (unlinkErr) {
+          console.error(`Error deleting file ${filePath}:`, unlinkErr);
+        } else {
+          console.log(`Successfully deleted file ${filePath}`);
+        }
       });
     });
   } catch (error) {
-    console.error("Error downloading image:", error.message);
+    console.error(`Error downloading image from URL ${url}:`, error.message);
     res.status(500).send("Error downloading image");
   }
 });

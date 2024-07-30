@@ -7,6 +7,7 @@ class FetchedContent extends React.Component {
     console.log(`Fetching image from URL: ${url}`);
     fetch(`/download-image?url=${encodeURIComponent(url)}`)
       .then((response) => {
+        console.log(`Received response for image ${index}:`, response);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -14,6 +15,7 @@ class FetchedContent extends React.Component {
       })
       .then((blob) => {
         const filename = `fetched_image_${index}${this.getFileExtension(url)}`;
+        console.log(`Saving image as: ${filename}`);
         saveAs(blob, filename);
       })
       .catch((err) => console.error("Error fetching image:", err));
@@ -24,14 +26,15 @@ class FetchedContent extends React.Component {
     const imageUrls = this.getImageUrls(content);
 
     if (imageUrls.length === 0) {
+      console.log("No images to download");
       return;
     }
 
     const zip = new JSZip();
-
     const promises = imageUrls.map((url, index) =>
       fetch(`/download-image?url=${encodeURIComponent(url)}`)
         .then((response) => {
+          console.log(`Received response for image ${index}:`, response);
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
@@ -41,6 +44,7 @@ class FetchedContent extends React.Component {
           const filename = `fetched_image_${index}${this.getFileExtension(
             url
           )}`;
+          console.log(`Adding image to ZIP: ${filename}`);
           zip.file(filename, blob);
         })
         .catch((err) => console.error("Error fetching image:", err))
@@ -48,7 +52,9 @@ class FetchedContent extends React.Component {
 
     Promise.all(promises)
       .then(() => {
+        console.log("Generating ZIP file");
         zip.generateAsync({ type: "blob" }).then((content) => {
+          console.log("ZIP file generated");
           saveAs(content, "images.zip");
         });
       })
