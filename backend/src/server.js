@@ -108,6 +108,8 @@ app.get("/fetch", async (req, res) => {
 
 app.get("/download-image", async (req, res) => {
   const { url } = req.query;
+  console.log(`Received request to download image: ${url}`); // Log incoming request
+
   if (!url) {
     return res.status(400).send("URL parameter is required");
   }
@@ -115,9 +117,10 @@ app.get("/download-image", async (req, res) => {
   try {
     const response = await axios.get(url, { responseType: "arraybuffer" });
     const contentType = response.headers["content-type"];
+    console.log(`Fetched content type: ${contentType}`); // Log content type
 
     if (!contentType.startsWith("image/")) {
-      console.log(`Received HTML instead of image for URL: ${url}`);
+      console.log(`Received non-image content for URL: ${url}`);
       return res.status(400).send("Received non-image content");
     }
 
@@ -127,6 +130,7 @@ app.get("/download-image", async (req, res) => {
 
     fs.writeFileSync(filePath, response.data);
 
+    console.log(`Image saved at: ${filePath}`); // Log the file path
     res.download(filePath, filename, (err) => {
       if (err) {
         console.error("Error sending file:", err.message);
