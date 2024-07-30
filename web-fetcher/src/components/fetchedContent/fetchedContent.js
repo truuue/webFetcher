@@ -24,47 +24,26 @@ class FetchedContent extends React.Component {
       .catch((err) => console.error("Error fetching image:", err));
   };
 
-  downloadAllImages = () => {
-    const { content } = this.props;
-    const imageUrls = this.getImageUrls(content);
-
-    if (imageUrls.length === 0) {
-      console.log("No images to download");
-      return;
-    }
-
-    const zip = new JSZip();
-    const promises = imageUrls.map((url, index) =>
-      fetch(`/download-image?url=${encodeURIComponent(url)}`)
-        .then((response) => {
-          console.log(`Received response for image ${index}:`, response);
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.blob();
-        })
-        .then((blob) => {
-          if (!blob.type.startsWith("image/")) {
-            throw new Error(`Received blob is not an image: ${blob.type}`);
-          }
-          const filename = `fetched_image_${index}${this.getFileExtension(
-            url
-          )}`;
-          console.log(`Adding image to ZIP: ${filename}`);
-          zip.file(filename, blob);
-        })
-        .catch((err) => console.error("Error fetching image:", err))
-    );
-
-    Promise.all(promises)
-      .then(() => {
-        console.log("Generating ZIP file");
-        zip.generateAsync({ type: "blob" }).then((content) => {
-          console.log("ZIP file generated");
-          saveAs(content, "images.zip");
-        });
+  downloadImage = (url, index) => {
+    console.log(`Fetching image from URL: ${url}`);
+    fetch(`/download-image?url=${encodeURIComponent(url)}`)
+      .then((response) => {
+        console.log(`Received response for image ${index}:`, response);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.blob();
       })
-      .catch((err) => console.error("Error creating ZIP file:", err));
+      .then((blob) => {
+        if (!blob.type.startsWith("image/")) {
+          console.error("Blob type is not an image:", blob.type);
+          throw new Error(`Received blob is not an image: ${blob.type}`);
+        }
+        const filename = `fetched_image_${index}${this.getFileExtension(url)}`;
+        console.log(`Saving image as: ${filename}`);
+        saveAs(blob, filename);
+      })
+      .catch((err) => console.error("Error fetching image:", err));
   };
 
   getImageUrls = (data) => {
