@@ -14,6 +14,9 @@ class FetchedContent extends React.Component {
         return response.blob();
       })
       .then((blob) => {
+        if (!blob.type.startsWith("image/")) {
+          throw new Error(`Received blob is not an image: ${blob.type}`);
+        }
         const filename = `fetched_image_${index}${this.getFileExtension(url)}`;
         console.log(`Saving image as: ${filename}`);
         saveAs(blob, filename);
@@ -41,6 +44,9 @@ class FetchedContent extends React.Component {
           return response.blob();
         })
         .then((blob) => {
+          if (!blob.type.startsWith("image/")) {
+            throw new Error(`Received blob is not an image: ${blob.type}`);
+          }
           const filename = `fetched_image_${index}${this.getFileExtension(
             url
           )}`;
